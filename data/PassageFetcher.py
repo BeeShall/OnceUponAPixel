@@ -7,11 +7,25 @@ class PassageFetcher(object):
     DATA_MANAGER = DataManager()
     LINE_CACHE_SIZE = 4
     LOOK_FORWARD_SIZE = 4
-
+    TAG_LIMIT = 4
+    NEGATORY_QUOTE = "'Remember not only to say the right thing in the right place, but far more difficult still, to leave unsaid the wrong thing at the tempting moment.' - Benjamin Franklin"
 
     @staticmethod
     def FetchAndCompilePassages(tags):
-        return "\n\n".join(PassageFetcher.FetchPassages(tags))
+        tags = [str(tag) for tag in tags]
+        # Validate tags
+        valid_tags = PassageFetcher.ValidateTags(tags)
+        print(valid_tags)
+        # Get passages
+        result = "\n\n".join(PassageFetcher.
+            FetchPassages(valid_tags if len(valid_tags) < PassageFetcher.
+                TAG_LIMIT else valid_tags[0:PassageFetcher.
+                TAG_LIMIT]))
+
+        if result == None or result.isspace():
+            return PassageFetcher.NEGATORY_QUOTE
+        else:
+            return result
 
     @staticmethod
     def FetchPassages(tags):
@@ -20,14 +34,35 @@ class PassageFetcher(object):
     @staticmethod
     def PassagePipe(tag):
         locations = PassageFetcher.GetLocations(tag)
+        if locations == None: return ""
         coordinates = PassageFetcher.GetRandomLocation(locations)
         raw_passage = PassageFetcher.ExtractPassage(coordinates)
         treated_passage = PassageFetcher.TreatPassage(raw_passage)
         return treated_passage
 
+
+    @staticmethod
+    def ValidateTags(tags):
+        ### ADD THE SORT HERE ###
+        valid_tags = []
+        for tag in tags:
+            try:
+                PassageFetcher.DATA_MANAGER.DATA[tag.lower()]
+                valid_tags.append(tag)
+            except:
+                print(tag + " was not found.")
+
+        return valid_tags
+
     @staticmethod
     def GetLocations(tag):
-        return PassageFetcher.DATA_MANAGER.DATA[tag.lower()]
+        try:
+            locations = PassageFetcher.DATA_MANAGER.DATA[tag.lower()]
+        except Exception as e:
+            print("Error: ")
+            return None
+        return locations
+
 
     @staticmethod
     def GetRandomLocation(locations):
@@ -75,7 +110,6 @@ class PassageFetcher(object):
     def TreatPassage(raw_passage):
         pattern = re.compile(r'([A-Z][^\.!?]*[\.!?])', re.M)
         sentences = pattern.findall(raw_passage)
-        print(sentences)
 
         if len(sentences) > 3:
             sentences.pop(0)
