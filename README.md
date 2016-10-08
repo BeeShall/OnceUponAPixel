@@ -1,5 +1,6 @@
 # OnceUponAPixel
 
+Post your photos and let famous authors tell your story.
 
 ## Team
 
