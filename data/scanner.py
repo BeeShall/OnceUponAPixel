@@ -5,10 +5,6 @@ from stop_words import get_stop_words
 stop_words = get_stop_words('english')
 RESULTS = {}
 
-linecounter = 0
-wordcounter = 0
-
-
 fileList = os.listdir("./books/")
 
 for filename in fileList: 
@@ -16,6 +12,8 @@ for filename in fileList:
     print("\t> Scanning " + filename + " ...")
 
     with open("./books/" + filename, 'r') as file:
+        linecounter = 0
+        wordcounter = 0
         for line in file:
             for word in line.split():
                 exclude = set(string.punctuation)
@@ -31,9 +29,9 @@ for filename in fileList:
 
                 if not newword.lower() in stop_words and flag:
                     try:
-                        RESULTS[newword].append([filename, linecounter, wordcounter])
+                        RESULTS[newword.lower()].append([filename, linecounter, wordcounter])
                     except:
-                        RESULTS[newword] = [[filename, linecounter, wordcounter]]
+                        RESULTS[newword.lower()] = [[filename, linecounter, wordcounter]]
 
                 wordcounter += 1
             linecounter += 1
