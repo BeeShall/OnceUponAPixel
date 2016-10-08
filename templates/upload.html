@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container">
+	<h1>File Uploader </h1>
+	{{wtf.quick_form(form, action="http://localhost:5000",method="post")}}
+</div>
+{% endblock %}
