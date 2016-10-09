@@ -20,6 +20,19 @@ callers = {
     "+12017452101": "William"
 }
 
+Novels = {
+	"20000_Leagues_Under_The_Sea.txt": "Jules Verne",
+	"A_Tale_of_Two_Cities.txt": "Charles Dickens",
+	"Aladdin_and_the_Lamp.txt": "Antoine Galland",
+	"Alices_Adventures_in_Wonderland.txt": "Lewis Carroll",
+	"Around_the_World_in_80_Days.txt": "Jules Verne",
+	"Gullivers_Travels.txt": "Jonathan Swift",
+	"Leviathon": "Thomas Hobbes",
+	"Peter_Pan": "J. M. Barrie" 
+}
+
+
+
 app=Flask(__name__)
 
 app.config['MONGO_DBNAME']='onceUponAPixel'
@@ -33,7 +46,7 @@ LIVE_FEEDS = []
 def InjectFeed():
     return dict(LIVE_FEEDS=LIVE_FEEDS)
 
-#@app.route('/')
+@app.route('/')
 @app.route('/index',methods=['GET','POST'])
 def index():
 	if request.method=='POST':

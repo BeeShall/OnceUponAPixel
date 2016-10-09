@@ -2,6 +2,17 @@
 from data.DataManager import DataManager
 import json, random, re
 
+Novels = {
+    "20000_Leagues_Under_The_Sea.txt": "Jules Verne",
+    "A_Tale_of_Two_Cities.txt": "Charles Dickens",
+    "Aladdin_and_the_Lamp.txt": "Antoine Galland",
+    "Alices_Adventures_in_Wonderland.txt": "Lewis Carroll",
+    "Around_the_World_in_80_Days.txt": "Jules Verne",
+    "Gullivers_Travels.txt": "Jonathan Swift",
+    "Leviathon": "Thomas Hobbes",
+    "Peter_Pan": "J. M. Barrie" 
+}
+
 class PassageFetcher(object):
 
     DATA_MANAGER = DataManager()
@@ -17,6 +28,9 @@ class PassageFetcher(object):
         # Validate tags
         valid_tags = PassageFetcher.ValidateTags(tags)
         print(valid_tags)
+
+        
+        
         # Get passages
         result = "\n\n".join(PassageFetcher.
             FetchPassages(valid_tags if len(valid_tags) < PassageFetcher.

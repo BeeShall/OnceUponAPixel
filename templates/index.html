@@ -10,7 +10,6 @@
 </head>
 
 <body>
-    
 <div class="row header-row">
     <h1><span class="scripty" style="vertical-align: middle;">Once Upon a </span><span class="pixely" style="vertical-align: middle;"> Pixel</span></h1>
 </div>
@@ -30,10 +29,12 @@
         </div>
 
         <div class="col-md-8 text-center feed-content scrollable">
+        <meta http-equiv="refresh" content="5">
+
             {% if (LIVE_FEEDS is defined) and LIVE_FEEDS %}
                 {% for content in LIVE_FEEDS %}
-                <div class="feed-entry">
-                    <img src="{{content[0]}}" class="img-thumbnail content-image" width="400" height="236">
+                <div class='feed-entry'>
+                    <img src='{{content[0]}}' class='img-thumbnail content-image' width='400' height='236'>
                     <p>{{content[1]}}</p>
                     <hr>
                 </div>
@@ -41,7 +42,7 @@
             {% else %}
                 <br>
                 <br>
-                <h3 style="color:rgba(240, 0, 0, .6);">No feed to display.</h3>
+                <h3 style='color:rgba(240, 0, 0, .6);''>No feed to display.</h3>
             {% endif %}
 
             <p>- End of Feed -</p>
