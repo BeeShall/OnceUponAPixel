@@ -35,7 +35,7 @@ def index():
 		information.insert({'location':os.path.join(app.config['UPLOAD_FOLDER'],filename),'story':''})
 	
 	filename=None
-	return render_template('upload.html',form=form,filename=filename)
+	return render_template('index.html',form=form,filename=filename)
 
 if __name__=='__main__':
 	app.run(debug=True,host='0.0.0.0')
