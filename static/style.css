@@ -4,6 +4,10 @@ body {
     background-size: 100%;
 }
 
+html {
+    overflow-y: hidden;
+}
+
 
 h1{
     color: black;
@@ -15,9 +19,14 @@ h2 {
     color: white;
 }
 
+h3 {
+    color: white;
+    font-family: "Poppins", serif;
+}
 
 p {
     color: white;
+    font-family: "Poppins", serif;
 }
 
 .scripty {
@@ -63,12 +72,9 @@ p {
 }
 
 .feed-entry p {
-    margin-top: 10px;
+    margin-top: 20px;
     text-align: justify;
 }
-
-
-
 
 .scrollable {
     overflow-y: scroll;
