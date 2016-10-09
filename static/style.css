@@ -8,6 +8,11 @@ html {
     overflow-y: hidden;
 }
 
+footer{
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+}
 
 h1{
     color: black;
@@ -46,7 +51,7 @@ p {
 
 
 .content-container {
-    margin-top: 40px;
+    margin-top: 30px;
     background: rgba(0,0,0, .5);
     text-align: center;
     border-radius: 5px;

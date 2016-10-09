@@ -30,88 +30,26 @@
         </div>
 
         <div class="col-md-8 text-center feed-content scrollable">
-            
-            <div class="feed-entry">
-                <img src="/static/images/testimage.jpg" class="img-thumbnail content-image" width="400" height="236">
+            {% if (LIVE_FEEDS is defined) and LIVE_FEEDS %}
+                {% for content in LIVE_FEEDS %}
+                <div class="feed-entry">
+                    <img src="{{content[0]}}" class="img-thumbnail content-image" width="400" height="236">
+                    <p>{{content[1]}}</p>
+                    <hr>
+                </div>
+                {% endfor %}
+            {% else %}
+                <br>
+                <br>
+                <h3 style="color:rgba(240, 0, 0, .6);">No feed to display.</h3>
+            {% endif %}
 
-                <p>It is safe enough for me; nobody will care to interfere with an old
-                fellow of hard upon fourscore when there are so many people there
-                much better worth interfering with. As to its being a disorganised
-                city, if it were not a disorganised city there would be no occasion
-                to send somebody from our House here to our House there, who knows
-                the city and the business, of old, and is in Tellson's confidence.
-
-                To the conglomerate and trachyte
-                succeeded black basalt, the first dispread in layers full of bubbles,
-                the latter forming regular prisms, placed like a colonnade
-                supporting the spring of the immense vault, an admirable specimen
-                of natural architecture. Between the blocks of basalt wound long
-                streams of lava, long since grown cold, encrusted with bituminous rays;
-                and in some places there were spread large carpets of sulphur.
-
-                I
-                did not observe the air to be much colder, or the sky more darkened, than
-                if I had stood under the shade of a mountain. As it approached nearer
-                over the place where I was, it appeared to be a firm substance, the
-                bottom flat, smooth, and shining very bright, from the reflection of the
-                sea below. I stood upon a height about two hundred yards from the shore,
-                and saw this vast body descending almost to a parallel with me, at less
-                than an English mile distance.
-
-                He waited and waited, and the clock struck twelve; but Doctor Manette
-                did not come back. Mr. Lorry returned, and found no tidings of him,
-                and brought none. Where could he be? They were discussing this question, and were almost building up some
-                weak structure of hope on his prolonged absence, when they heard him
-                on the stairs.
-
-                </p>
-
-                <hr>
-
-            </div>
-
-
-            <div class="feed-entry">
-                <img src="/static/images/testimage.jpg" class="img-thumbnail content-image" width="400" height="236">
-
-                <p>
-                It is safe enough for me; nobody will care to interfere with an old
-                fellow of hard upon fourscore when there are so many people there
-                much better worth interfering with. As to its being a disorganised
-                city, if it were not a disorganised city there would be no occasion
-                to send somebody from our House here to our House there, who knows
-                the city and the business, of old, and is in Tellson's confidence.
-
-                To the conglomerate and trachyte
-                succeeded black basalt, the first dispread in layers full of bubbles,
-                the latter forming regular prisms, placed like a colonnade
-                supporting the spring of the immense vault, an admirable specimen
-                of natural architecture. Between the blocks of basalt wound long
-                streams of lava, long since grown cold, encrusted with bituminous rays;
-                and in some places there were spread large carpets of sulphur.
-
-                I
-                did not observe the air to be much colder, or the sky more darkened, than
-                if I had stood under the shade of a mountain. As it approached nearer
-                over the place where I was, it appeared to be a firm substance, the
-                bottom flat, smooth, and shining very bright, from the reflection of the
-                sea below. I stood upon a height about two hundred yards from the shore,
-                and saw this vast body descending almost to a parallel with me, at less
-                than an English mile distance.
-
-                He waited and waited, and the clock struck twelve; but Doctor Manette
-                did not come back. Mr. Lorry returned, and found no tidings of him,
-                and brought none. Where could he be? They were discussing this question, and were almost building up some
-                weak structure of hope on his prolonged absence, when they heard him
-                on the stairs.
-                </p>
-                <hr>
-            </div>
-        </div>
-    </div>
+            <p>- End of Feed -</p>
+        </div> <!-- End feed content -->
+    </div> <!-- End content container -->
 
 
 </div>
-
+<footer><p>HackUMass IV | Hackers of Ramapo College | Fall 2016</p></footer>
 </body>
 </html>

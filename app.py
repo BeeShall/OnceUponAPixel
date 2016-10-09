@@ -50,12 +50,11 @@ def get_message():
     image=request.form['MediaUrl0']
 
     global LIVE_FEEDS
-
     model = Model(image)
     tags = model.RunClarifai()
     story = model.GeneratePassage()
 
-    LIVE_FEEDS.append([image, story])
+    LIVE_FEEDS = [[image, story]] + LIVE_FEEDS
 
     mongo.db.clarifai.insert({'number':str(from_number),'tags':tags,'image':image,'story':story})
 
@@ -68,15 +67,6 @@ def get_message():
     resp.message(message)
 
     return str(resp)
-
-"""
-def send_message(number,name):
-	ACCOUNT_SID="AC0901e05ee44d2d33119019521dccda6f"
-	AUTH_TOKEN="b52883f4ecee6325880ab3ffa0222c86"
-	client=TwilioRestClient(ACCOUNT_SID,AUTH_TOKEN)
-	client.messages.create(to=number,from_="+12016694967",
-		body="Story and things")
-"""
 
 @app.route('/login', methods=['POST'])
 def login():
