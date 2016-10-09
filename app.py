@@ -20,17 +20,6 @@ callers = {
     "+12017452101": "William"
 }
 
-Novels = {
-	"20000_Leagues_Under_The_Sea.txt": "Jules Verne",
-	"A_Tale_of_Two_Cities.txt": "Charles Dickens",
-	"Aladdin_and_the_Lamp.txt": "Antoine Galland",
-	"Alices_Adventures_in_Wonderland.txt": "Lewis Carroll",
-	"Around_the_World_in_80_Days.txt": "Jules Verne",
-	"Gullivers_Travels.txt": "Jonathan Swift",
-	"Leviathon": "Thomas Hobbes",
-	"Peter_Pan": "J. M. Barrie" 
-}
-
 
 
 app=Flask(__name__)
@@ -65,9 +54,12 @@ def get_message():
     global LIVE_FEEDS
     model = Model(image)
     tags = model.RunClarifai()
-    story = model.GeneratePassage()
+    response = model.GeneratePassage()
+    story = response[0]
+    feed = response[1]
+    authors = response[2]
 
-    LIVE_FEEDS = [[image, story]] + LIVE_FEEDS
+    LIVE_FEEDS = [[image, story, ", ".join(feed), ", ".join(authors)]] + LIVE_FEEDS
 
     mongo.db.clarifai.insert({'number':str(from_number),'tags':tags,'image':image,'story':story})
 

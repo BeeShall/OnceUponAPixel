@@ -98,3 +98,31 @@ p {
     background: rgba(255,255,255,0.6); 
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
+
+.subtext{
+    font-size: 11px; 
+    color: rgb(200, 200, 200);
+    line-height: 6px;
+}
+
+.submit-button {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    width: 50%;    
+    height: 35px;
+    font-size: 22px;
+
+    -webkit-transition-duration: .3s; /* Safari */
+    transition-duration: .3s;
+
+}
+
+.submit-button:hover {
+    background: rgba(255, 255, 255, .8);
+    border: 1px solid black;
+}
+
+.submit-button:hover p {
+    color: black;
+}

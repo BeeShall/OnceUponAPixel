@@ -29,28 +29,31 @@ class PassageFetcher(object):
         valid_tags = PassageFetcher.ValidateTags(tags)
         print(valid_tags)
 
-        
-        
+        feed = valid_tags if len(valid_tags) < PassageFetcher.TAG_LIMIT else valid_tags[0:PassageFetcher.TAG_LIMIT]
+
+        authors = []
+
         # Get passages
-        result = "\n\n".join(PassageFetcher.
-            FetchPassages(valid_tags if len(valid_tags) < PassageFetcher.
-                TAG_LIMIT else valid_tags[0:PassageFetcher.
-                TAG_LIMIT]))
+        result = "\n\n".join(PassageFetcher.FetchPassages(feed, authors))
 
         if result == None or result.isspace():
             return PassageFetcher.NEGATORY_QUOTE
         else:
-            return result
+            return tuple([result, feed, authors])
 
     @staticmethod
-    def FetchPassages(tags):
-        return [PassageFetcher.PassagePipe(tag) for tag in tags]
+    def FetchPassages(tags, authors):
+        return [PassageFetcher.PassagePipe(tag, authors) for tag in tags]
 
     @staticmethod
-    def PassagePipe(tag):
+    def PassagePipe(tag, authors):
         locations = PassageFetcher.GetLocations(tag)
         if locations == None: return ""
         coordinates = PassageFetcher.GetRandomLocation(locations)
+        try:
+            authors.append(Novels[coordinates[0]])
+        except Exception as e:
+            print(e)
         raw_passage = PassageFetcher.ExtractPassage(coordinates)
         treated_passage = PassageFetcher.TreatPassage(raw_passage)
         return treated_passage
