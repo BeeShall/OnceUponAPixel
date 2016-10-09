@@ -1,11 +1,10 @@
 from flask import Flask, render_template, url_for, request, session, redirect
 from flask_pymongo import PyMongo
 from wtforms import Form, StringField, PasswordField, validators
-import bcrypt
 import twilio.twiml
 from twilio.rest import TwilioRestClient
-import os
 
+from data.Model import Model
 
 user_information={}
 
@@ -23,23 +22,22 @@ callers = {
 
 app=Flask(__name__)
 
-app.config['MONGO_DBNAME']='onceUponAPixel '
-app.config['MONGO_URL']='mongodb://localhost:27017/onceUponAPixel '
-
-app.config['TWILIO_SID']=os.environ.get('TWILIO_SID')
-app.config['TWILIO_AUTH_TOKEN']=os.environ.get('TWILIO_AUTH_TOKEN')
+app.config['MONGO_DBNAME']='onceUponAPixel'
+app.config['MONGO_URL']='mongodb://localhost:27017/onceUponAPixel'
 
 
 mongo=PyMongo(app)
 
-db_handle=mongo.db.clarifai
+LIVE_FEEDS = []
+@app.context_processor
+def InjectFeed():
+    return dict(LIVE_FEEDS=LIVE_FEEDS)
 
 #@app.route('/')
 @app.route('/index',methods=['GET','POST'])
 def index():
 	if request.method=='POST':
 		get_message()
-		send_message(user_information['number'],user_information['name'])
 
 	if 'username' in session:
 		return render_template('lin_index.html',username=session['username'])
@@ -50,26 +48,35 @@ def get_message():
     number=request.form['From']
     from_number = request.values.get('From',None)
     image=request.form['MediaUrl0']
-    image.save('/static/images')
-    image_directory='/static/images'+str(image)
-    db_handle.insert({'number':str(from_number),'tags':None,'image':'image_directory','story':None})
+
+    global LIVE_FEEDS
+
+    model = Model(image)
+    tags = model.RunClarifai()
+    story = model.GeneratePassage()
+
+    LIVE_FEEDS.append([image, story])
+
+    mongo.db.clarifai.insert({'number':str(from_number),'tags':tags,'image':image,'story':story})
+
     if from_number in callers:
-    	message = callers[from_number] + ", thanks for coming to //hackRamapo meeting"
+    	message = ""
     else:
-    	message = "Hello there !, thanks for coming to //hackRamapo meeting!"
+    	message = ""
+
     resp = twilio.twiml.Response()
     resp.message(message)
 
-    list_information.append(user_information)
     return str(resp)
 
+"""
 def send_message(number,name):
 	ACCOUNT_SID="AC0901e05ee44d2d33119019521dccda6f"
 	AUTH_TOKEN="b52883f4ecee6325880ab3ffa0222c86"
 	client=TwilioRestClient(ACCOUNT_SID,AUTH_TOKEN)
 	client.messages.create(to=number,from_="+12016694967",
-		body="Hey there ! Thanks for coming to //hackRamapo meeting")
-
+		body="Story and things")
+"""
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -93,7 +100,10 @@ def register():
 	return render_template('register.html')
 
 
-	return ''
+@app.route('/echoData')
+def echodata(methods=['GET', 'POST']):
+    global LIVE_FEEDS
+    return str(LIVE_FEEDS)
 
 if __name__=='__main__':
 	app.secret_key='mysecret'

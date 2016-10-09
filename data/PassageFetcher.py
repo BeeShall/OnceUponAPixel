@@ -1,5 +1,5 @@
 
-from DataManager import DataManager
+from data.DataManager import DataManager
 import json, random, re
 
 class PassageFetcher(object):
@@ -12,6 +12,7 @@ class PassageFetcher(object):
 
     @staticmethod
     def FetchAndCompilePassages(tags):
+        print(tags)
         tags = [str(tag) for tag in tags]
         # Validate tags
         valid_tags = PassageFetcher.ValidateTags(tags)
@@ -75,7 +76,7 @@ class PassageFetcher(object):
         word_index = 0
 
         # Open up the book
-        with open("./books/" + coordinates[0]) as file:
+        with open("./data/books/" + coordinates[0]) as file:
             # Compile regex sentence pattern
             line_cache = []
             found_flag = False

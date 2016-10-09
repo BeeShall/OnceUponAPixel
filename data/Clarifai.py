@@ -7,22 +7,23 @@ class Clarifai(object):
     CONNECTION = ClarifaiApi()
 
     @staticmethod
-    def SubmitImage(url):
-        result = Clarifai.CONNECTION.tag_images(url)
+    def SubmitImageWithBuffer(resource):
+        result = Clarifai.CONNECTION.tag_images(resource)
         return result
 
     @staticmethod
-    def ParseProbabilities(JSON_response, tags):
-        results = zip(JSON_response['results'][0]['result']['tag']['classes'], 
-            JSON_response['results'][0]['result']['tag']['probs'])
-        retval = []
-        for entry in results:
-            if entry[0] in tags:
-                retval.append(entry)
-        return retval
+    def SubmitImageWithURL(url):
+        result = Clarifai.CONNECTION.tag_image_urls(url)
+        return result
 
     @staticmethod
-    def GetProbabilities(url, tags):
-        return Clarifai.ParseProbabilities(Clarifai.SubmitImage(url), tags)
+    def ParseProbabilities(JSON_response):
+        results = zip(JSON_response['results'][0]['result']['tag']['classes'], 
+            JSON_response['results'][0]['result']['tag']['probs'])
+        return results
+
+    @staticmethod
+    def GetProbabilities(JSON_Object):
+        return Clarifai.ParseProbabilities(JSON_Object)
 
 
